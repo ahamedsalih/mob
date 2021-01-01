@@ -33,7 +33,7 @@ class Musics extends Component {
         console.log('you cannot access');
       } else {
         console.log('access');
-        getTracks({minimumSongDuration: 1000})
+        getTracks({minimumSongDuration: 100})
           .then(async (tracks) => {
             this.setState({loading: false});
             console.log(tracks);

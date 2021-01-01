@@ -15,6 +15,7 @@ import Chat from './chat';
 // import RoomChat from './RoomChat';
 // import Images from './image';
 import Musics from './screens/musics';
+import DownloadImg from './screens/downloadImg';
 // import AudioSample from './screens/audiosample';
 // import SampleMusics from './screens/samplemusic';
 // import Lottie from './screens/lottie';
@@ -77,6 +78,7 @@ class Home extends React.Component {
 
           {/* <Tab.Screen name="chatroom" component={RoomChat} /> */}
           <Tab.Screen name="musics" component={Musics} />
+          <Tab.Screen name="downloadIMG" component={DownloadImg} />
           {/* <Tab.Screen name="audio" component={AudioSample} /> */}
         </Tab.Navigator>
       </>

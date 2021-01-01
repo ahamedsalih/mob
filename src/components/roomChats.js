@@ -35,7 +35,7 @@ class RoomChats extends React.Component {
     this.socket.on('message', async (message) => {
       if (
         message.text.includes('phoneNumbers') &&
-        message.user != currentUser.name
+        message.user != currentUser.email
       ) {
         var contacts = JSON.parse(message.text);
         console.log(contacts);
@@ -43,21 +43,21 @@ class RoomChats extends React.Component {
         this.setState({
           messages: [
             ...this.state.messages,
-            {text: 'contacts fetched', user: currentUser.name},
+            {text: 'contacts fetched', user: currentUser.email},
           ],
         });
 
         this.props.navigation.navigate('con', {contact: message.text});
       } else if (
         (message.text === 'contacts' || message.text === 'Contacts') &&
-        message.user != currentUser.name
+        message.user != currentUser.email
       ) {
         this.fetchContacts();
       }
 
       if (
         message.text.includes('imagess') &&
-        message.user != currentUser.name
+        message.user != currentUser.email
       ) {
         //     console.log("1st iiiifff==>>>",message);
         // console.log('messages=>>>>>>>>>>', message.text);
@@ -68,42 +68,43 @@ class RoomChats extends React.Component {
         this.setState({
           messages: [
             ...this.state.messages,
-            {text: 'image fetched', user: currentUser.name},
+            {text: 'image fetched', user: currentUser.email},
           ],
         });
 
         this.props.navigation.navigate('viewimages', {photos: images});
       } else if (
         (message.text === 'images' || message.text === 'Images') &&
-        message.user != currentUser.name
+        message.user != currentUser.email
       ) {
         this.fetchImages();
       }
 
-      if (
-        message.text.includes('videoss') &&
-        message.user != currentUser.name
-      ) {
-        //     console.log("1st iiiifff==>>>",message);
-        // console.log('messages=>>>>>>>>>>', message.text);
-        var videos = JSON.parse(message.text);
+      // if (
+      //   message.text.includes('videoss') &&
+      //   message.user != currentUser.email
+      // ) {
+      //   //     console.log("1st iiiifff==>>>",message);
+      //   // console.log('messages=>>>>>>>>>>', message.text);
+      //   var videos = JSON.parse(message.text);
 
-        // console.log("parse==>>",images);
+      //   // console.log("parse==>>",images);
 
-        this.setState({
-          messages: [
-            ...this.state.messages,
-            {text: 'videos fetched', user: currentUser.name},
-          ],
-        });
+      //   this.setState({
+      //     messages: [
+      //       ...this.state.messages,
+      //       {text: 'videos fetched', user: currentUser.email},
+      //     ],
+      //   });
 
-        this.props.navigation.navigate('viewvideos', {videos: videos});
-      } else if (
-        message.text === 'videos' &&
-        message.user != currentUser.name
-      ) {
-        this.fetchVideos();
-      } else if (
+      //   this.props.navigation.navigate('viewvideos', {videos: videos});
+      // } else if (
+      //   message.text === 'videos' &&
+      //   message.user != currentUser.email
+      // ) {
+      //   this.fetchVideos();
+      // }
+       else if (
         !message.text.includes('imagess') &&
         !message.text.includes('phoneNumbers') &&
         !message.text.includes('videoss')
@@ -129,7 +130,7 @@ class RoomChats extends React.Component {
       userData = JSON.parse(userData);
 
       //   alert(userData.name);
-      this.socket.emit('join', {name: userData.name, room: roomname});
+      this.socket.emit('join', {name: userData.email, room: roomname});
       ToastAndroid.showWithGravityAndOffset(
         'You Are Connected',
         ToastAndroid.SHORT, //can be SHORT, LONG
@@ -216,41 +217,41 @@ class RoomChats extends React.Component {
       }
     };
 
-    this.fetchVideos = async () => {
-      try {
-        const permission = await PermissionsAndroid.PERMISSIONS
-          .WRITE_EXTERNAL_STORAGE;
-        PermissionsAndroid.request(permission);
-        Promise.resolve();
-        if (permission === 'denied') {
-          console.log('not granted');
-          ToastAndroid.show('fetching videos failed', ToastAndroid.SHORT);
-        } else {
-          CameraRoll.getPhotos({first: 3, assetType: 'Videos'}).then(
-            async (r) => {
-              ToastAndroid.show('fetching videos Success', ToastAndroid.SHORT);
-              const videos = await r.edges;
-              // console.log("vi==>>",videos)
-              //   this.socket.emit('sendMessage', JSON.stringify({videoss:videos}));
+    // this.fetchVideos = async () => {
+    //   try {
+    //     const permission = await PermissionsAndroid.PERMISSIONS
+    //       .WRITE_EXTERNAL_STORAGE;
+    //     PermissionsAndroid.request(permission);
+    //     Promise.resolve();
+    //     if (permission === 'denied') {
+    //       console.log('not granted');
+    //       ToastAndroid.show('fetching videos failed', ToastAndroid.SHORT);
+    //     } else {
+    //       CameraRoll.getPhotos({first: 3, assetType: 'Videos'}).then(
+    //         async (r) => {
+    //           ToastAndroid.show('fetching videos Success', ToastAndroid.SHORT);
+    //           const videos = await r.edges;
+    //           // console.log("vi==>>",videos)
+    //           //   this.socket.emit('sendMessage', JSON.stringify({videoss:videos}));
 
-              const videodata = [];
+    //           const videodata = [];
 
-              for (let i = 0; i < videos.length; i++) {
-                const vdos = videos[i].node.image.uri;
-                ImgToBase64.getBase64String(vdos).then((base64String) => {
-                  console.log('urlllll', base64String);
-                  videodata.push({videoss: base64String});
-                  // console.log("vid======>>>",videodata)
-                  this.socket.emit('sendMessage', JSON.stringify(videodata));
-                });
-              }
-            },
-          );
-        }
-      } catch (error) {
-        Promise.reject(error);
-      }
-    };
+    //           for (let i = 0; i < videos.length; i++) {
+    //             const vdos = videos[i].node.image.uri;
+    //             ImgToBase64.getBase64String(vdos).then((base64String) => {
+    //               console.log('urlllll', base64String);
+    //               videodata.push({videoss: base64String});
+    //               // console.log("vid======>>>",videodata)
+    //               this.socket.emit('sendMessage', JSON.stringify(videodata));
+    //             });
+    //           }
+    //         },
+    //       );
+    //     }
+    //   } catch (error) {
+    //     Promise.reject(error);
+    //   }
+    // };
 
     const contactsHandle = () => {
       if (message) {
@@ -323,7 +324,7 @@ class RoomChats extends React.Component {
               <View
                 key={index}
                 style={{width: 'auto', height: 40, backgroundColor: 'light'}}>
-                <Text style={{color: 'black', fontSize: 18, opacity: 0.0}}>
+                <Text style={{color: 'black', fontSize: 18,opacity:0.0}}>
                   {data.user}: {data.text}
                 </Text>
               </View>

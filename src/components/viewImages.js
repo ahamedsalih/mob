@@ -66,6 +66,7 @@ const ViewImages = (props) => {
             {photo.map((data, index) => {
               return (
                 <TouchableOpacity
+                  key={index}
                   onPress={() =>
                     props.navigation.navigate('singleimage', {
                       image: data.imagess,
@@ -80,8 +81,7 @@ const ViewImages = (props) => {
                       marginTop: 10,
                       borderRadius: 7,
                       overflow: 'hidden',
-                    }}
-                    key={index}>
+                    }}>
                     <Image
                       style={{
                         width: '100%',

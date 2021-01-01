@@ -14,7 +14,7 @@ state={
     render(){
         const {contact}=this.props.route.params;
 
-        console.log("----contactsparam____",contact)
+        // console.log("----contactsparam____",contact)
 
         
       

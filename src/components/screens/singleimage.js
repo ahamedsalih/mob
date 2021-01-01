@@ -17,16 +17,16 @@ export default class SingleImage extends Component {
               padding: 5,
               marginBottom: 5,
             }}
-            resizeMode="cover"
+            resizeMode="contain"
             source={{uri: `data:image/jpg;base64,${image}`}}
           />
         </View>
-        {/* <Button
-         onPress={imageDownload}
+        <Button
+          // onPress={imageDownload}
           style={{width: '70%', height: 40, bottom: '10%'}}
           mode="contained">
           Download
-        </Button> */}
+        </Button>
       </View>
     );
   }

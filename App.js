@@ -23,6 +23,7 @@ import RoomChat from './src/components/RoomChat';
 import New from './src/components/screens/new';
 import SampleMusics from './src/components/screens/samplemusic';
 import SingleImage from './src/components/screens/singleimage';
+// import DownloadImg from "./src/components/screens/downloadImg";
 
 const Stack = createNativeStackNavigator();
 enableScreens();
